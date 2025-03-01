@@ -62,31 +62,36 @@ document.querySelector('.js-products-grid').innerHTML = productsHTML;
 document.querySelectorAll('.js-add-to-cart').forEach((button) => {
     button.addEventListener('click', () => {
         const productId = button.dataset.productId;
-        let ifMatchItem = false;
-        card.forEach((product) => {
-            if(productId === product.productId) {
-                product.quantity += selectOption(productId);
-                ifMatchItem = true;
-            }
-        })
-        if(!ifMatchItem){
-            card.push({
-                productId: productId,
-                quantity: selectOption(productId)
-            })
-        }
-
-        let totalQuantity = 0;
-        card.forEach((item) => {
-          totalQuantity += item.quantity;
-        })
-
-        document.querySelector('.js-cart-quantity').innerHTML = totalQuantity;
+        
+        addToCart(productId);
+        upDateCartQuantity();
         addedToCartMassage(productId);
-        console.log(totalQuantity);
-        console.log(card);
     })
 })
+
+function upDateCartQuantity(){
+  let totalQuantity = 0;
+  card.forEach((item) => {
+    totalQuantity += item.quantity;
+  })
+  document.querySelector('.js-cart-quantity').innerHTML = totalQuantity;
+}
+
+function addToCart(productId){
+  let ifMatchItem = false;
+  card.forEach((product) => {
+      if(productId === product.productId) {
+          product.quantity += selectOption(productId);
+          ifMatchItem = true;
+      }
+  })
+  if(!ifMatchItem){
+      card.push({
+          productId: productId,
+          quantity: selectOption(productId)
+      })
+  }
+}
 
 function selectOption(productId){
   let selectElement = document.querySelector(`.js-quantity-selector-${productId}`);
