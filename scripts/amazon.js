@@ -66,6 +66,8 @@ document.querySelectorAll('.js-add-to-cart').forEach((button) => {
         addToCart(productId);
         upDateCartQuantity();
         addedToCartMassage(productId);
+
+        console.log(card)
     })
 })
 
