@@ -1,3 +1,6 @@
+import {card} from '../data/card.js';
+import { products } from '../data/products.js';
+
 let productsHTML = '';
 
 products.forEach((event) => {
@@ -41,7 +44,7 @@ products.forEach((event) => {
 
           <div class="product-spacer"></div>
 
-          <div class="added-to-cart">
+          <div class="added-to-cart js-added-to-cart-${event.id}">
             <img src="images/icons/checkmark.png">
             Added
           </div>
@@ -62,7 +65,7 @@ document.querySelectorAll('.js-add-to-cart').forEach((button) => {
         let ifMatchItem = false;
         card.forEach((product) => {
             if(productId === product.productId) {
-                product.quantity = selectOption(productId);
+                product.quantity += selectOption(productId);
                 ifMatchItem = true;
             }
         })
@@ -79,6 +82,8 @@ document.querySelectorAll('.js-add-to-cart').forEach((button) => {
         })
 
         document.querySelector('.js-cart-quantity').innerHTML = totalQuantity;
+        addedToCartMassage(productId);
+        console.log(totalQuantity);
         console.log(card);
     })
 })
@@ -87,4 +92,14 @@ function selectOption(productId){
   let selectElement = document.querySelector(`.js-quantity-selector-${productId}`);
   let selectedOption = selectElement.options[selectElement.selectedIndex];
   return Number(selectedOption.value);
+}
+
+function addedToCartMassage(productId){
+  const element = document.querySelector(`.js-added-to-cart-${productId}`);
+  element.style.transition = "opacity 0.5s ease-in-out";
+  element.style.opacity = "1";
+
+  setTimeout(() => {
+    element.style.opacity = "0";
+  }, 500);
 }
