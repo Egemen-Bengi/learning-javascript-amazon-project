@@ -1,4 +1,4 @@
-import { card } from "../data/card.js";
+import { card, deleteProduct } from "../data/card.js";
 import { products } from "../data/products.js";
 import { formatMoney } from "./utils/money.js";
 import { formatDate } from "./utils/datetimeFormat.js";
@@ -15,7 +15,7 @@ card.forEach((product, index) => {
     })
 
     checkoutHTML += `
-    <div class="cart-item-container">
+    <div class="cart-item-container js-cart-item-container-${item.id}">
         <div class="delivery-date">
             Delivery date: Tuesday, June 21
         </div>
@@ -109,17 +109,10 @@ document.querySelectorAll('.js-delete-quantity').forEach((span) => {
 
 function deleteQuantity(span){
     const productId = span.dataset.productId;
-
-    card.forEach((product) => {
-        if(productId === product.productId){
-            if(product.quantity === 1){
-                console.log('sil');
-            } else{
-                product.quantity -= 1;
-                document.querySelector('.js-quantity-label').innerText = product.quantity;
-            }
-        }
-    })
+    deleteProduct(productId);
+    
+    const container = document.querySelector(`.js-cart-item-container-${productId}`)
+    container.remove();
 }
 
 function updateQuantity(span){
