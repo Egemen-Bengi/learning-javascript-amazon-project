@@ -1,3 +1,5 @@
+import { products } from "./products.js";
+
 export let card = JSON.parse(localStorage.getItem('cart'));
 
 if(!card){
@@ -32,7 +34,8 @@ export function addToCart(productId){
     if(!ifMatchItem){
         card.push({
             productId: productId,
-            quantity: selectOption(productId)
+            quantity: selectOption(productId),
+            deliveryOptionsId: '1'
         })
     }
     saveToStorage();
@@ -49,7 +52,27 @@ export function upDateCartQuantity(){
     card.forEach((item) => {
         totalQuantity += item.quantity;
     })
-     document.querySelector('.js-cart-quantity').innerHTML = totalQuantity;
+    document.querySelector('.js-cart-quantity').innerHTML = totalQuantity;
+}
+
+export function getTotalQuantity(){
+    let totalQuantity = 0;
+    card.forEach((item) => {
+        totalQuantity += item.quantity;
+    })
+    return totalQuantity;
+}
+
+export function getTotalMoney(){
+    let totalMoney = 0;
+    card.forEach((item) => {
+        products.forEach((product) => {
+            if(item.productId === product.id){
+                totalMoney += (product.priceCents) * item.quantity;
+            }
+        })
+    })
+    return totalMoney;
 }
 
 export function deleteQuantity(span){

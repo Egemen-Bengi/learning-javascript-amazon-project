@@ -1,11 +1,9 @@
-import { card, deleteQuantity } from "../data/card.js";
+import { card, deleteQuantity,getTotalQuantity,getTotalMoney } from "../data/card.js";
 import { products } from "../data/products.js";
 import { formatMoney } from "./utils/money.js";
 import { formatDate } from "./utils/datetimeFormat.js";
 
 let checkoutHTML = '';
-
-console.log(card);
 
 card.forEach((product, index) => {
     let item = undefined;
@@ -100,6 +98,7 @@ card.forEach((product, index) => {
 })
 
 document.querySelector('.js-order-summary').innerHTML = checkoutHTML;
+items();
 
 document.querySelectorAll('.js-update-quantity').forEach((span) => {
     span.addEventListener('click', () => {
@@ -110,14 +109,20 @@ document.querySelectorAll('.js-update-quantity').forEach((span) => {
 document.querySelectorAll('.js-delete-quantity').forEach((span) => {
     span.addEventListener('click', () => {
         deleteQuantity(span);
+        items();
     })
 })
-
-
 
 function updateQuantity(span){
     const productId = span.dataset.productId;
 
     document.querySelector('.js-update-quantity')
     
+}
+
+function items(totalQuantity){
+    document.querySelector('.js-payment-row-head').innerHTML = `
+        <div>Items (${getTotalQuantity()}):</div>
+        <div class="payment-summary-money">$${formatMoney(getTotalMoney())}</div>
+    `
 }
