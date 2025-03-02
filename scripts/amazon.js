@@ -1,5 +1,6 @@
 import {card} from '../data/card.js';
 import { products } from '../data/products.js';
+import { formatMoney } from './utils/money.js';
 
 let productsHTML = '';
 
@@ -24,7 +25,7 @@ products.forEach((event) => {
           </div>
 
           <div class="product-price">
-            $${(event.priceCents/100).toFixed(2)}
+            $${formatMoney(event.priceCents)}
           </div>
 
           <div class="product-quantity-container">
