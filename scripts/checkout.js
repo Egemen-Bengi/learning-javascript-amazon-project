@@ -1,9 +1,11 @@
-import { card, deleteProduct } from "../data/card.js";
+import { card, deleteQuantity } from "../data/card.js";
 import { products } from "../data/products.js";
 import { formatMoney } from "./utils/money.js";
 import { formatDate } from "./utils/datetimeFormat.js";
 
 let checkoutHTML = '';
+
+console.log(card);
 
 card.forEach((product, index) => {
     let item = undefined;
@@ -35,8 +37,12 @@ card.forEach((product, index) => {
                 <span>
                 Quantity: <span class="quantity-label js-quantity-label">${product.quantity}</span>
                 </span>
+                <input class="js-new-quantity-input new-quantity-input" type="number" value="1" data-testid="new-quantity-input">
                 <span class="update-quantity-link link-primary js-update-quantity" data-product-id="${item.id}">
                 Update
+                </span>
+                <span class="js-save-quantity-link save-quantity-link link-primary" data-testid="save-quantity-link">
+                  Save
                 </span>
                 <span class="delete-quantity-link link-primary js-delete-quantity" data-product-id="${item.id}">
                 Delete
@@ -107,21 +113,11 @@ document.querySelectorAll('.js-delete-quantity').forEach((span) => {
     })
 })
 
-function deleteQuantity(span){
-    const productId = span.dataset.productId;
-    deleteProduct(productId);
-    
-    const container = document.querySelector(`.js-cart-item-container-${productId}`)
-    container.remove();
-}
+
 
 function updateQuantity(span){
     const productId = span.dataset.productId;
 
-    card.forEach((product) => {
-        if(productId === product.productId){
-            product.quantity += 1;
-            document.querySelector('.js-quantity-label').innerText = product.quantity;
-        }
-    })
+    document.querySelector('.js-update-quantity')
+    
 }

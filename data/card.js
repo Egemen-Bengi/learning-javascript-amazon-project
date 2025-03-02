@@ -1,13 +1,8 @@
-export let card = [{
-    productId: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
-    quantity: 2
-}, {
-    productId: "15b6fc6f-327a-4ec4-896f-486349e85a3d",
-    quantity: 1
-}, {
-    productId: '54e0eccd-8f36-462b-b68a-8182611d9add',
-    quantity: 1
-}];
+export let card = JSON.parse(localStorage.getItem('cart'));
+
+if(!card){
+    card = [];
+}
 
 export function deleteProduct(productId){
     const newCart = [];
@@ -18,4 +13,49 @@ export function deleteProduct(productId){
         }
     })
     card = newCart;
+
+    saveToStorage();
+}
+
+function saveToStorage(){
+    localStorage.setItem('cart', JSON.stringify(card));
+}
+
+export function addToCart(productId){
+    let ifMatchItem = false;
+    card.forEach((product) => {
+        if(productId === product.productId) {
+            product.quantity += selectOption(productId);
+            ifMatchItem = true;
+        }
+    })
+    if(!ifMatchItem){
+        card.push({
+            productId: productId,
+            quantity: selectOption(productId)
+        })
+    }
+    saveToStorage();
+}
+
+function selectOption(productId){
+    let selectElement = document.querySelector(`.js-quantity-selector-${productId}`);
+    let selectedOption = selectElement.options[selectElement.selectedIndex];
+    return Number(selectedOption.value);
+}
+
+export function upDateCartQuantity(){
+    let totalQuantity = 0;
+    card.forEach((item) => {
+        totalQuantity += item.quantity;
+    })
+     document.querySelector('.js-cart-quantity').innerHTML = totalQuantity;
+}
+
+export function deleteQuantity(span){
+    const productId = span.dataset.productId;
+    deleteProduct(productId);
+    
+    const container = document.querySelector(`.js-cart-item-container-${productId}`)
+    container.remove();
 }
