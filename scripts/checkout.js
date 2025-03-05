@@ -70,6 +70,8 @@ function renderOrderSummry(){
     })
 
     document.querySelector('.js-order-summary').innerHTML = checkoutHTML;
+
+    allMoney();
     items();
 
     document.querySelectorAll('.js-update-quantity').forEach((span) => {
@@ -138,6 +140,26 @@ function renderOrderSummry(){
             renderOrderSummry();
         })
     })
+
+    function getShippingMoney(){
+        let shippingMoney = 0;
+        card.forEach((cartItem) => {
+            deliveryOptions.forEach((option) => {
+                if(cartItem.deliveryOptionsId === option.id){
+                    shippingMoney += option.priceCents;
+                }
+            })
+        })
+        return formatMoney(shippingMoney);
+    }
+
+    function allMoney(){
+        document.querySelector('.js-shipping-money').innerText = `$${getShippingMoney()}`;
+        const totalBeforeTax = Number(formatMoney(getTotalMoney())) + Number(getShippingMoney());
+        document.querySelector('.js-total-before-tax').innerText = `$${(totalBeforeTax).toFixed(2)}`;
+        document.querySelector('.js-estimated-tax').innerText = `$${(totalBeforeTax + (totalBeforeTax/10)).toFixed(2)}`;
+        document.querySelector('.js-final-money').innerText = `$${(totalBeforeTax + (totalBeforeTax/10)).toFixed(2)}`;
+    }
 }
 
 renderOrderSummry();
