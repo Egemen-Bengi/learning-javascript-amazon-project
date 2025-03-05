@@ -82,3 +82,17 @@ export function deleteQuantity(span){
     const container = document.querySelector(`.js-cart-item-container-${productId}`)
     container.remove();
 }
+
+export function updateDeliveryOption(productId, deliveryOptionId){
+    let product;
+
+    card.forEach((cartItem) => {
+        if(productId === cartItem.productId){
+            product = cartItem;
+        }
+    })
+
+    product.deliveryOptionsId = deliveryOptionId;
+
+    saveToStorage()
+}

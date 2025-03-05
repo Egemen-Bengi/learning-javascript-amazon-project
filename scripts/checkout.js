@@ -1,4 +1,4 @@
-import { card, deleteQuantity,getTotalQuantity,getTotalMoney } from "../data/card.js";
+import { card, deleteQuantity,getTotalQuantity,getTotalMoney, updateDeliveryOption } from "../data/card.js";
 import { products } from "../data/products.js";
 import { formatMoney } from "./utils/money.js";
 import { formatDate } from "./utils/datetimeFormat.js";
@@ -6,7 +6,7 @@ import { deliveryOptions } from "../data/deliveryOptions.js";
 
 let checkoutHTML = '';
 
-card.forEach((product, index) => {
+card.forEach((product) => {
     let item = undefined;
 
     products.forEach((event) => {
@@ -56,13 +56,12 @@ card.forEach((product, index) => {
             </div>
             </div>
 
-            <div class="delivery-options">
-            <div class="delivery-options-title">
-                Choose a delivery option:
-            </div>
-            
+            <div class="delivery-options ">
+                <div class="delivery-options-title">
+                    Choose a delivery option:
+                </div>
                 ${deliveryOptionsHTML(item.id, product)}
-            
+
             </div>
         </div>
     </div>
@@ -110,7 +109,9 @@ function deliveryOptionsHTML(productId, cartItem){
 
         html += 
         `
-            <div class="delivery-option">
+            <div class="delivery-option js-delivery-options"
+            data-product-id="${productId}" 
+            data-delivery-option-id="${deliveryOption.id}">
                 <input type="radio" ${isChecked ? 'checked': ''}
                 class="delivery-option-input"
                 name="delivery-option-${productId}">
@@ -127,3 +128,11 @@ function deliveryOptionsHTML(productId, cartItem){
     })
     return html;
 }
+
+document.querySelectorAll(".js-delivery-options").forEach((element) => {
+    element.addEventListener('click', () => {
+        const productId = element.dataset.productId;
+        const deliveryOptionId = element.dataset.deliveryOptionId;
+        updateDeliveryOption(productId, deliveryOptionId)
+    })
+})
