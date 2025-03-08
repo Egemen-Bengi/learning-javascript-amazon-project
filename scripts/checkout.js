@@ -1,8 +1,9 @@
-import { card, deleteQuantity,getTotalQuantity,getTotalMoney, updateDeliveryOption } from "../data/card.js";
+import { card, deleteQuantity, updateDeliveryOption } from "../data/card.js";
 import { products } from "../data/products.js";
 import { formatMoney } from "./utils/money.js";
 import { formatDate } from "./utils/datetimeFormat.js";
 import { deliveryOptions } from "../data/deliveryOptions.js";
+import { paymentSummry } from "./paymentSummary.js";
 
 function renderOrderSummry(){
     let checkoutHTML = '';
@@ -71,8 +72,7 @@ function renderOrderSummry(){
 
     document.querySelector('.js-order-summary').innerHTML = checkoutHTML;
 
-    allMoney();
-    items();
+    paymentSummry();
 
     document.querySelectorAll('.js-update-quantity').forEach((span) => {
         span.addEventListener('click', () => {
@@ -83,7 +83,7 @@ function renderOrderSummry(){
     document.querySelectorAll('.js-delete-quantity').forEach((span) => {
         span.addEventListener('click', () => {
             deleteQuantity(span);
-            items();
+            paymentSummry();
         })
     })
 
@@ -92,13 +92,6 @@ function renderOrderSummry(){
 
         document.querySelector('.js-update-quantity')
         
-    }
-
-    function items(){
-        document.querySelector('.js-payment-row-head').innerHTML = `
-            <div>Items (${getTotalQuantity()}):</div>
-            <div class="payment-summary-money">$${formatMoney(getTotalMoney())}</div>
-        `
     }
 
     function deliveryOptionsHTML(productId, cartItem){
@@ -140,26 +133,5 @@ function renderOrderSummry(){
             renderOrderSummry();
         })
     })
-
-    function getShippingMoney(){
-        let shippingMoney = 0;
-        card.forEach((cartItem) => {
-            deliveryOptions.forEach((option) => {
-                if(cartItem.deliveryOptionsId === option.id){
-                    shippingMoney += option.priceCents;
-                }
-            })
-        })
-        return formatMoney(shippingMoney);
-    }
-
-    function allMoney(){
-        document.querySelector('.js-shipping-money').innerText = `$${getShippingMoney()}`;
-        const totalBeforeTax = Number(formatMoney(getTotalMoney())) + Number(getShippingMoney());
-        document.querySelector('.js-total-before-tax').innerText = `$${(totalBeforeTax).toFixed(2)}`;
-        document.querySelector('.js-estimated-tax').innerText = `$${(totalBeforeTax + (totalBeforeTax/10)).toFixed(2)}`;
-        document.querySelector('.js-final-money').innerText = `$${(totalBeforeTax + (totalBeforeTax/10)).toFixed(2)}`;
-    }
 }
-
 renderOrderSummry();

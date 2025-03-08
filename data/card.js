@@ -1,4 +1,7 @@
 import { products } from "./products.js";
+import { paymentSummry } from "../scripts/paymentSummary.js";
+import { deliveryOptions } from "../data/deliveryOptions.js";
+import { formatMoney } from "../scripts/utils/money.js";
 
 export let card = JSON.parse(localStorage.getItem('cart'));
 
@@ -75,12 +78,25 @@ export function getTotalMoney(){
     return totalMoney;
 }
 
+export function getShippingMoney(){
+    let shippingMoney = 0;
+    card.forEach((cartItem) => {
+        deliveryOptions.forEach((option) => {
+            if(cartItem.deliveryOptionsId === option.id){
+                shippingMoney += option.priceCents;
+            }
+        })
+    })
+    return formatMoney(shippingMoney);
+}
+
 export function deleteQuantity(span){
     const productId = span.dataset.productId;
     deleteProduct(productId);
     
     const container = document.querySelector(`.js-cart-item-container-${productId}`)
     container.remove();
+    paymentSummry();
 }
 
 export function updateDeliveryOption(productId, deliveryOptionId){
