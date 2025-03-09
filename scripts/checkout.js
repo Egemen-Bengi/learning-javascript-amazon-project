@@ -1,10 +1,13 @@
 import { card, deleteQuantity, updateDeliveryOption } from "../data/card.js";
-import { products } from "../data/products.js";
+import { products,loadProducts } from "../data/products.js";
 import { formatMoney } from "./utils/money.js";
 import { formatDate } from "./utils/datetimeFormat.js";
 import { deliveryOptions } from "../data/deliveryOptions.js";
 import { paymentSummry } from "./paymentSummary.js";
 
+loadProducts(() => {
+    renderOrderSummry();
+})
 function renderOrderSummry(){
     let checkoutHTML = '';
 
@@ -134,4 +137,3 @@ function renderOrderSummry(){
         })
     })
 }
-renderOrderSummry();
