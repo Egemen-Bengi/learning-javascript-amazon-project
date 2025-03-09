@@ -1,3 +1,55 @@
+import { formatMoney } from "../scripts/utils/money.js";
+
+export function getProduct(productId) {
+  let macthingProduct;
+  products.forEach((product) => {
+    if(productId === product.id){
+      macthingProduct = product
+    }
+  })
+  return macthingProduct;
+}
+
+class Product{
+  id;
+  image;
+  name; 
+  rating;
+  priceCents;
+
+  constructor(productDetails){
+    this.id = productDetails.id;
+    this.image = productDetails.image;
+    this.name = productDetails.name;
+    this.rating = productDetails.rating;
+    this.priceCents = productDetails.priceCents;
+  }
+
+  getStarsUrl(){
+    return `images/ratings/rating-${this.rating.stars * 10}.png`;
+  }
+
+  getPrice(){
+    return `$${formatMoney(this.priceCents)}`;
+  }
+
+  getRating(){
+    return `${this.rating.count}`;
+  }
+
+  getName(){
+    return this.name;
+  }
+
+  getId(){
+    return this.id;
+  }
+  
+  getImage(){
+    return this.image;
+  }
+}
+
 export const products = [
   {
     id: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
@@ -657,4 +709,6 @@ export const products = [
       "mens"
     ]
   }
-];
+].map((productDetails) => {
+  return new Product(productDetails)
+});

@@ -9,7 +9,7 @@ function renderOrderSummry(){
     let checkoutHTML = '';
 
     card.forEach((product) => {
-        let item = undefined;
+        let item;
 
         products.forEach((event) => {
             if(product.productId === event.id){
@@ -32,14 +32,14 @@ function renderOrderSummry(){
 
             <div class="cart-item-details-grid">
                 <img class="product-image"
-                src="${item.image}">
+                src="${item.getImage()}">
 
                 <div class="cart-item-details">
                 <div class="product-name">
-                    ${item.name}
+                    ${item.getName()}
                 </div>
                 <div class="product-price">
-                    $${formatMoney(item.priceCents)}
+                    ${item.getPrice()}
                 </div>
                 <div class="product-quantity">
                     <span>
@@ -62,7 +62,7 @@ function renderOrderSummry(){
                     <div class="delivery-options-title">
                         Choose a delivery option:
                     </div>
-                    ${deliveryOptionsHTML(item.id, product)}
+                    ${deliveryOptionsHTML(item.getId(), product)}
 
                 </div>
             </div>

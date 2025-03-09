@@ -9,27 +9,27 @@ products.forEach((event) => {
         <div class="product-container">
           <div class="product-image-container">
             <img class="product-image"
-              src="${event.image}">
+              src="${event.getImage()}">
           </div>
 
           <div class="product-name limit-text-to-2-lines">
-            ${event.name}
+            ${event.getName()}
           </div>
 
           <div class="product-rating-container">
             <img class="product-rating-stars"
-              src="images/ratings/rating-${event.rating.stars * 10}.png">
+              src="${event.getStarsUrl()}">
             <div class="product-rating-count link-primary">
-              ${event.rating.count}
+              ${event.getRating()}
             </div>
           </div>
 
           <div class="product-price">
-            $${formatMoney(event.priceCents)}
+            ${event.getPrice()}
           </div>
 
           <div class="product-quantity-container">
-            <select class="js-quantity-selector-${event.id}">
+            <select class="js-quantity-selector-${event.getId()}">
               <option selected value="1">1</option>
               <option value="2">2</option>
               <option value="3">3</option>
@@ -45,13 +45,13 @@ products.forEach((event) => {
 
           <div class="product-spacer"></div>
 
-          <div class="added-to-cart js-added-to-cart-${event.id}">
+          <div class="added-to-cart js-added-to-cart-${event.getId()}">
             <img src="images/icons/checkmark.png">
             Added
           </div>
 
           <button class="add-to-cart-button button-primary js-add-to-cart" 
-          data-product-id="${event.id}">
+          data-product-id="${event.getId()}">
             Add to Cart
           </button>
         </div>
