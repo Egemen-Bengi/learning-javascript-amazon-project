@@ -58,6 +58,27 @@ export function upDateCartQuantity(){
     document.querySelector('.js-cart-quantity').innerHTML = totalQuantity;
 }
 
+export function updateProductQuantity(productId, inputQuantity){
+    card.forEach((item) => {
+        if(productId === item.productId){
+            item.quantity = inputQuantity;
+        }
+    })
+    saveToStorage();
+}
+
+/*
+export function getProduct(productId){
+    let product;
+    card.forEach((item) => {
+        if(productId === item.productId){
+            product = item
+        }
+    })
+    return product;
+}
+*/
+
 export function getTotalQuantity(){
     let totalQuantity = 0;
     card.forEach((item) => {

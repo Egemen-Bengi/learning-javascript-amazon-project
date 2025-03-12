@@ -1,4 +1,4 @@
-import { card, deleteQuantity, updateDeliveryOption } from "../data/card.js";
+import { card, deleteQuantity, updateDeliveryOption,updateProductQuantity } from "../data/card.js";
 import { products,loadProducts } from "../data/products.js";
 import { formatMoney } from "./utils/money.js";
 import { formatDate } from "./utils/datetimeFormat.js";
@@ -48,11 +48,11 @@ function renderOrderSummry(){
                     <span>
                     Quantity: <span class="quantity-label js-quantity-label">${product.quantity}</span>
                     </span>
-                    <input class="js-new-quantity-input new-quantity-input" type="number" value="1" data-testid="new-quantity-input">
+                    <input class="js-new-quantity-input new-quantity-input js-input-field" type="number" value="1" data-testid="new-quantity-input">
                     <span class="update-quantity-link link-primary js-update-quantity" data-product-id="${item.id}">
                     Update
                     </span>
-                    <span class="js-save-quantity-link save-quantity-link link-primary" data-testid="save-quantity-link">
+                    <span class="save-quantity-link link-primary js-save-quantity-link" data-product-id="${item.id}" data-testid="save-quantity-link">
                     Save
                     </span>
                     <span class="delete-quantity-link link-primary js-delete-quantity" data-product-id="${item.id}">
@@ -136,4 +136,38 @@ function renderOrderSummry(){
             renderOrderSummry();
         })
     })
+
+    function productUpdateSaveDelete(){      
+        const updateBtns = document.querySelectorAll('.js-update-quantity');
+        const inputFields = document.querySelectorAll('.js-input-field');
+        const saveBtns = document.querySelectorAll('.js-save-quantity-link');
+
+        updateBtns.forEach((updateBtn, index) =>{
+            const saveBtn = saveBtns[index];
+            const inputField = inputFields[index];
+
+            saveBtn.style.display = 'none';
+            inputField.style.display = 'none';
+            
+            updateBtn.addEventListener('click', () =>{
+                updateBtn.style.display = 'none';
+                saveBtn.style.display = 'inline';
+                inputField.style.display = 'inline';
+            })
+
+            saveBtn.addEventListener('click', () => {
+                saveBtn.style.display = 'none';
+                inputField.style.display = 'none';
+                updateBtn.style.display = 'inline';
+                
+                const element = document.querySelector('.js-save-quantity-link');
+                const productId = element.getAttribute('data-product-id');
+                const inputQuantity = inputField.value; 
+
+                updateProductQuantity(productId, inputQuantity);
+                renderOrderSummry();
+            })
+        })
+    }
+   productUpdateSaveDelete();
 }
