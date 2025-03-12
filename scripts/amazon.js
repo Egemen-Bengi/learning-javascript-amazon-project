@@ -1,4 +1,4 @@
-import {card, addToCart, upDateCartQuantity} from '../data/card.js';
+import {card, addToCart, upDateCartQuantity, getTotalQuantity} from '../data/card.js';
 import { products,loadProducts } from '../data/products.js';
 
 loadProducts(renderHomePage)
@@ -74,6 +74,7 @@ function renderHomePage(){
           addedToCartMassage(productId);
       })
   })
+  getCartQuantityToStorage();
   
   function addedToCartMassage(productId){
     const element = document.querySelector(`.js-added-to-cart-${productId}`);
@@ -83,5 +84,16 @@ function renderHomePage(){
     setTimeout(() => {
       element.style.opacity = "0";
     }, 500);
+  }
+
+  function getCartQuantityToStorage(){
+    let cartQuantity = getTotalQuantity();
+    let quantityHTML = `
+      <img class="cart-icon" src="images/icons/cart-icon.png">
+      <div class="cart-quantity js-cart-quantity">${cartQuantity}</div>
+      <div class="cart-text">Cart</div>
+    `;
+
+    document.querySelector('.js-cart-link').innerHTML = quantityHTML;
   }
 }
