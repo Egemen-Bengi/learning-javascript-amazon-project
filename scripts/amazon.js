@@ -1,12 +1,12 @@
 import {card, addToCart, upDateCartQuantity, getTotalQuantity} from '../data/card.js';
-import { products,loadProducts } from '../data/products.js';
+import { products,loadProducts, filteredProducts } from '../data/products.js';
 
 loadProducts(renderHomePage)
 
-function renderHomePage(){
+function renderHomePage(paramProducts){
   let productsHTML = '';
 
-  products.forEach((event) => {
+  paramProducts.forEach((event) => {
       productsHTML += `
           <div class="product-container">
             <div class="product-image-container">
@@ -95,4 +95,12 @@ function renderHomePage(){
 
     document.querySelector('.js-cart-link').innerHTML = quantityHTML;
   }
+
+  const searchBar = document.querySelector('.js-search-bar');
+  const searchBtn = document.querySelector('.js-search-btn');
+
+  searchBtn.addEventListener('click', () => {
+    let searchInput = searchBar.value.toLowerCase();
+    renderHomePage(filteredProducts(searchInput))
+  })
 }

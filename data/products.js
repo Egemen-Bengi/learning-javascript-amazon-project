@@ -87,11 +87,18 @@ export function loadProducts(renderHomePage){
         }
         return new Product(productDetails)
       })
-      renderHomePage();
+      renderHomePage(products);
     })
   } catch(error){
     console.log('Unexpected error');
   }
+}
+
+export function filteredProducts(searchInput){
+  const filtProducts = products.filter(product => 
+    product.name.toLowerCase().includes(searchInput.toLowerCase())
+  );
+  return filtProducts;
 }
 
 /*
