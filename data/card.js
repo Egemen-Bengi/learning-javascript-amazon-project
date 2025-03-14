@@ -61,7 +61,7 @@ export function upDateCartQuantity(){
 export function updateProductQuantity(productId, inputQuantity){
     card.forEach((item) => {
         if(productId === item.productId){
-            item.quantity = inputQuantity;
+            item.quantity = Number(inputQuantity);
         }
     })
     saveToStorage();
@@ -82,7 +82,8 @@ export function getProduct(productId){
 export function getTotalQuantity(){
     let totalQuantity = 0;
     card.forEach((item) => {
-        totalQuantity += item.quantity;
+        totalQuantity += Number(item.quantity);
+        console.log(typeof totalQuantity);
     })
     return totalQuantity;
 }

@@ -4,7 +4,6 @@ import { products,loadProducts } from '../data/products.js';
 loadProducts(renderHomePage)
 
 function renderHomePage(){
-  console.log("giriyo")
   let productsHTML = '';
 
   products.forEach((event) => {

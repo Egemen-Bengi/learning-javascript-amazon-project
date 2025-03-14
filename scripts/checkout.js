@@ -162,7 +162,7 @@ function renderOrderSummry(){
                 
                 const element = document.querySelector('.js-save-quantity-link');
                 const productId = element.getAttribute('data-product-id');
-                const inputQuantity = inputField.value; 
+                const inputQuantity = Number(inputField.value); 
 
                 updateProductQuantity(productId, inputQuantity);
                 renderOrderSummry();
